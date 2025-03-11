@@ -70,4 +70,3 @@ Este projeto é licenciado sob a [MIT License](LICENSE).
 ---
 
 Divirta-se explorando **Aventura CSS** e descubra como a criatividade com CSS pode transformar sua experiência de jogo!
-```
