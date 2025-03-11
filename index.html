@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo Modular com Componentes Reutilizáveis</title>
+  <!-- Font Awesome e Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Toggle de Tema -->
+  <input type="checkbox" id="theme-toggle" class="u-hidden">
+  <label for="theme-toggle" class="theme-toggle c-button c-button--small">
+    <i class="fa-solid fa-adjust"></i> Trocar Tema
+  </label>
+  
+  <!-- Controles de Nível (radio buttons ocultos) -->
+  <input type="radio" name="level" id="level-1" class="u-hidden" checked>
+  <input type="radio" name="level" id="level-2" class="u-hidden">
+  <input type="radio" name="level" id="level-3" class="u-hidden">
+
+  <!-- Container do Jogo -->
+  <div class="l-container">
+    <!-- Camadas de parallax (background) -->
+    <div class="parallax parallax--back"></div>
+    <div class="parallax parallax--front"></div>
+    
+    <!-- Tela de Nível 1 -->
+    <section class="c-screen c-screen--level1">
+      <header class="c-screen__header">
+        <h1 class="c-title">
+          <i class="fa-solid fa-gamepad"></i> Nível 1
+        </h1>
+      </header>
+      <div class="c-screen__body">
+        <p class="c-text">Bem-vindo ao jogo! Clique no botão para iniciar.</p>
+        <label for="level-2" class="c-button">
+          <i class="fa-solid fa-play"></i> Iniciar Jogo
+        </label>
+      </div>
+    </section>
+
+    <!-- Tela de Nível 2 -->
+    <section class="c-screen c-screen--level2">
+      <header class="c-screen__header">
+        <h1 class="c-title">
+          <i class="fa-solid fa-arrow-right"></i> Nível 2
+        </h1>
+      </header>
+      <div class="c-screen__body">
+        <p class="c-text">Complete o desafio para avançar.</p>
+        <!-- Componente de Interação -->
+        <div class="c-interaction">
+          <input type="checkbox" id="win-check" class="u-hidden">
+          <label for="win-check" class="c-button c-button--action">
+            <i class="fa-solid fa-check"></i> Clique para ganhar!
+          </label>
+          <div class="c-message">
+            <i class="fa-solid fa-trophy"></i> Você ganhou!
+          </div>
+          <div class="c-ball"></div>
+          <!-- Botão para avançar para o Nível 3 -->
+          <label for="level-3" class="c-button c-button--next">
+            <i class="fa-solid fa-forward"></i> Próximo Nível
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tela de Nível 3 -->
+    <section class="c-screen c-screen--level3">
+      <header class="c-screen__header">
+        <h1 class="c-title">
+          <i class="fa-solid fa-star"></i> Nível 3
+        </h1>
+      </header>
+      <div class="c-screen__body">
+        <p class="c-text">Parabéns, você completou o jogo!</p>
+        <label for="level-1" class="c-button">
+          <i class="fa-solid fa-rotate-left"></i> Reiniciar Jogo
+        </label>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

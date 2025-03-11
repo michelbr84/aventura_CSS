@@ -1,0 +1,290 @@
+/* ========================================================
+   VARIÁVEIS & RESET
+======================================================== */
+:root {
+  --bg-color: #f0f0f0;
+  --font-family: 'Roboto', sans-serif;
+  --primary-color: #3498db;
+  --hover-color: #2980b9;
+  --text-color: #fff;
+  --message-color: green;
+  --message-hover: #2ecc71;
+  --border-color: #ccc;
+  --ball-color: #e74c3c;
+  --ball-hover: #c0392b;
+  --ball-win: #27ae60;
+}
+
+#theme-toggle:checked ~ .l-container {
+  --bg-color: #333;
+  --primary-color: #8e44ad;
+  --hover-color: #732d91;
+  --text-color: #eee;
+  --message-color: #1abc9c;
+  --message-hover: #16a085;
+  --border-color: #666;
+  --ball-color: #e67e22;
+  --ball-hover: #d35400;
+  --ball-win: #27ae60;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   UTILITÁRIOS
+======================================================== */
+.u-hidden {
+  display: none;
+}
+
+/* ========================================================
+   BASE: BODY & HTML
+======================================================== */
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  background: var(--bg-color);
+}
+
+/* ========================================================
+   COMPONENTES REUTILIZÁVEIS
+======================================================== */
+
+/* Botões */
+.c-button {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1rem;
+  text-decoration: none;
+  background: var(--primary-color);
+  color: var(--text-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.c-button--small {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+.c-button::after {
+  content: "➜";
+  position: absolute;
+  right: 10px;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.c-button:hover {
+  background: var(--hover-color);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.c-button:hover::after {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+/* Feedback: shake */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.c-button:active {
+  animation: shake 0.3s;
+}
+
+/* Mensagem com animação de pulse */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.c-message {
+  margin-top: 20px;
+  font-size: 2rem;
+  color: var(--message-color);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.5s, transform 0.5s, color 0.5s;
+}
+
+.c-message:hover {
+  color: var(--message-hover);
+}
+
+/* Bola Animada */
+.c-ball {
+  position: absolute;
+  bottom: 10%;
+  left: -50px;
+  width: 50px;
+  height: 50px;
+  background: var(--ball-color);
+  border-radius: 50%;
+  animation: moveBall 3s infinite alternate, shapeBall 3s infinite alternate;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.c-ball:hover {
+  transform: scale(1.1);
+  background: var(--ball-hover);
+}
+
+@keyframes moveBall {
+  0% { left: -50px; }
+  100% { left: calc(100% - 50px); }
+}
+
+@keyframes shapeBall {
+  0% { border-radius: 50%; transform: scale(1); }
+  50% { border-radius: 20%; transform: scale(1.2); }
+  100% { border-radius: 50%; transform: scale(1); }
+}
+
+#win-check:checked ~ .c-ball {
+  animation: winBall 1s forwards, winShape 1s forwards;
+}
+
+@keyframes winBall {
+  to { left: calc(50% - 25px); bottom: 50%; }
+}
+
+@keyframes winShape {
+  to { border-radius: 50%; transform: scale(1); background: var(--ball-win); }
+}
+
+/* Esconder o botão de próximo nível por padrão */
+.c-button--next {
+  display: none;
+}
+
+/* Exibir o botão "Próximo Nível" quando o win-check estiver marcado */
+.c-interaction #win-check:checked ~ .c-button--next {
+  display: inline-block !important;
+}
+
+/* ========================================================
+   LAYOUT: Container, Screens & Parallax
+======================================================== */
+
+/* Container principal: usamos 100vh e padding reduzido para não cortar a parte de baixo */
+.l-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.l-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px dashed var(--border-color);
+  pointer-events: none;
+}
+
+/* Telas de nível */
+.c-screen {
+  display: none;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.c-screen__header {
+  margin-bottom: 20px;
+}
+
+.c-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.c-text {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.c-screen__body {
+  margin-bottom: 20px;
+}
+
+/* Exibição de telas via radio buttons */
+#level-1:checked ~ .l-container .c-screen--level1,
+#level-2:checked ~ .l-container .c-screen--level2,
+#level-3:checked ~ .l-container .c-screen--level3 {
+  display: block;
+}
+
+/* Parallax */
+.parallax {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  top: 0;
+  left: -50%;
+  pointer-events: none;
+}
+
+.parallax--back {
+  z-index: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.2), transparent 70%);
+  animation: parallaxBack 20s linear infinite;
+}
+
+.parallax--front {
+  z-index: 1;
+  background: linear-gradient(60deg, rgba(0,0,0,0.1), transparent 70%);
+  animation: parallaxFront 10s linear infinite;
+}
+
+@keyframes parallaxBack {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes parallaxFront {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+/* ========================================================
+   RESPONSIVIDADE
+======================================================== */
+@media (max-width: 600px) {
+  .c-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  .c-message {
+    font-size: 1.5rem;
+    margin-top: 15px;
+  }
+  .c-ball {
+    width: 40px;
+    height: 40px;
+  }
+}
